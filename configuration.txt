@@ -1,0 +1,87 @@
+//Raspberry Pi 4  server1 + server2
+
+install nodejs + npm
+https://www.instructables.com/Install-Nodejs-and-Npm-on-Raspberry-Pi/
+uname -m
+https://nodejs.org/en/download/package-manager
+sudo cp -R * /usr/local/
+
+
+
+*********************************************************************
+
+sudo nano /etc/systemd/system/startserver.service
+
+
+[Unit]
+Description=Start Server 1
+After=network.target
+
+[Service]
+ExecStartPre=/bin/sleep 20
+ExecStart=/home/pi/server/scripts/startserver.sh
+WorkingDirectory=/home/pi/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+
+
+Give permmision
+sudo chmod +x /home/pi/server/scripts/startserver.sh
+sudo chmod +x /home/pi/server/scripts/hotspot_browser.sh
+sudo chmod +x /home/pi/server/scripts/reboot.sh
+sudo chmod +x /home/pi/server/scripts/server_browser.sh
+sudo chmod +x /home/pi/server/server1/server1.js
+sudo chmod +x /home/pi/server/server2/server2.js
+
+*******************************************************************************************
+
+sudo systemctl daemon-reload
+sudo systemctl enable startserver.service
+sudo systemctl start startserver.service
+
+
+sudo systemctl status startserver.service
+
+*********************************************************
+
+Install libraries
+
+
+
+sudo npm install node-wifi    // in server 2
+
+sudo npm install onoff        // in server 2
+
+sudo npm install express      // in server 2
+
+sudo npm install onoff     // in server 1
+
+sudo npm install express         // in server 1
+
+sudo npm install node-wifi        // in server 1
+
+*****************************************
+
+access 10.42.0.1 index without port in browser
+
+sudo apt update
+sudo apt install iptables -y
+sudo iptables -t nat -I PREROUTING -i wlan0 -p tcp --dport 80 -j DNAT --to-destination 10.42.0.1:5000
+sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
+sudo apt-get install iptables-persistent -y
+
+*******************************************
+
+sudo visudo
+add
+
+pi   ALL=(ALL:ALL) ALL   
+pi ALL=(ALL) NOPASSWD: /sbin/reboot
+
+
+
