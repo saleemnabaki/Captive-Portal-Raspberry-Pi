@@ -1,2 +1,6 @@
 
 The Captive Portal Raspberry Pi enables connection to a WIFI network by scanning for available networks via web page and selecting the desired one for connect to.
+
+Some technical info : 1- OS raspberry pi is Debian Bookworm Desktop released 2024-07-04
+                      2- For reset wifi saved configuration on pin 2 , Since we use OS Debian Bookworm which follows the new Linux kernel GPIO numbering system instead of 
+                         the traditional BCM pin numbering that is used with the Raspberry Pi GPIO library in Raspberry Pi OS.
