@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node server1.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "express": "^4.21.0",
+    "node-network-manager": "^1.0.14",
+    "node-wifi": "^2.0.16",
+    "onoff": "^6.0.3",
+    "reboot": "^0.1.0",
+    "shelljs": "^0.8.5"
+  }
+}
