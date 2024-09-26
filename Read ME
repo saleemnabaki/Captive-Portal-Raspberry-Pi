@@ -4,3 +4,4 @@ The Captive Portal Raspberry Pi enables connection to a WIFI network by scanning
 Some technical info : 1- OS raspberry pi is Debian Bookworm Desktop released 2024-07-04
                       2- For reset wifi saved configuration on pin 2 , Since we use OS Debian Bookworm which follows the new Linux kernel GPIO numbering system instead of 
                          the traditional BCM pin numbering that is used with the Raspberry Pi GPIO library in Raspberry Pi OS.
+                      3- Create a folder, and name it server. Add all the files to home/pi/server that you have shown in the project.
