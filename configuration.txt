@@ -1,16 +1,22 @@
 //Raspberry Pi 4  server1 + server2
 
 install nodejs + npm
-https://www.instructables.com/Install-Nodejs-and-Npm-on-Raspberry-Pi/
-uname -m
-https://nodejs.org/en/download/package-manager
+
+Follow the installation steps https://www.instructables.com/Install-Nodejs-and-Npm-on-Raspberry-Pi/
+Download nodejs + npm for Raspberry Pi 4 64bit from https://nodejs.org/en/download/prebuilt-binaries
+
+Extract the file and copy in
 sudo cp -R * /usr/local/
 
-
+check nodejs and npm via command node -v
+                                 npm -v
 
 *********************************************************************
 
+Add the following lines in
+
 sudo nano /etc/systemd/system/startserver.service
+
 
 
 [Unit]
@@ -29,8 +35,10 @@ User=pi
 [Install]
 WantedBy=multi-user.target
 
+*********************************************************************
 
 Give permmision
+
 sudo chmod +x /home/pi/server/scripts/startserver.sh
 sudo chmod +x /home/pi/server/scripts/hotspot_browser.sh
 sudo chmod +x /home/pi/server/scripts/reboot.sh
@@ -39,6 +47,7 @@ sudo chmod +x /home/pi/server/server1/server1.js
 sudo chmod +x /home/pi/server/server2/server2.js
 
 *******************************************************************************************
+Execute the following lines
 
 sudo systemctl daemon-reload
 sudo systemctl enable startserver.service
@@ -50,7 +59,6 @@ sudo systemctl status startserver.service
 *********************************************************
 
 Install libraries
-
 
 
 sudo npm install node-wifi    // in server 2
@@ -66,8 +74,7 @@ sudo npm install express         // in server 1
 sudo npm install node-wifi        // in server 1
 
 *****************************************
-
-access 10.42.0.1 index without port in browser
+Execute the following lines
 
 sudo apt update
 sudo apt install iptables -y
@@ -78,7 +85,8 @@ sudo apt-get install iptables-persistent -y
 *******************************************
 
 sudo visudo
-add
+
+Add the following lines
 
 pi   ALL=(ALL:ALL) ALL   
 pi ALL=(ALL) NOPASSWD: /sbin/reboot
