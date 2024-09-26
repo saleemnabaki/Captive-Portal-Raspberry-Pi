@@ -1,0 +1,16 @@
+{
+  "name": "your-project-name",
+  "version": "1.0.0",
+  "description": "Description of your project",
+  "scripts": {
+    "start": "node server2.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "network": "^0.7.0",
+    "node-network-manager": "^1.0.14",
+    "node-wifi": "^2.0.16",
+    "onoff": "^6.0.3",
+    "reboot": "^0.1.0"
+  }
+}

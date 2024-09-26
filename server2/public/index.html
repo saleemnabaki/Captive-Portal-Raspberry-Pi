@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Device Setup</title>
+  <style>
+    body {
+      color: white;
+      background-color: #5f89b0;
+      font-family: Helvetica, Verdana, Arial, sans-serif;
+    }
+    h1, p {
+      text-align: center;
+    }
+    form {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      width: 300px;
+      max-width: 100%;
+      margin: 50px auto;
+    }
+    input[type=text], input[type=password], button {
+      width: 90%;
+      padding: 10px;
+      margin-top: 5px;
+      display: block; /* Ensure elements are block to center them */
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 18px; /* Default font size for input fields */
+    }
+    input[type=password] {
+      font-size: 22px; /* Adjust font size for password input */
+    }
+    button {
+      cursor: pointer;
+      background-color: #0056a8;
+      color: white;
+      font-size: 20px; /* Larger font size for buttons */
+      margin-top: 30px;
+    }
+    #scanButton {
+      width: 300px;
+      border-radius: 8px;
+      padding: 20px;
+      font-size: 20px;
+    }
+    #networkResults {
+      text-align: center; /* Center the scan results */
+      color: black; /* Ensure text color is black for visibility */
+      margin-top: -135px;
+      font-size: 16px; /* Adjust font size for network results */
+    }
+    .networkElement {
+      color: black;
+      padding: 7px;
+      margin: 5px 0;
+      cursor: pointer;
+      font-size: 16px; /* Adjust font size for network elements */
+    }
+    .spinner-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100px;
+    }
+    .spinner-dot {
+      width: 15px;
+      height: 15px;
+      background-color: #800080;
+      border-radius: 50%;
+      margin: 0 5px;
+      margin-top: 100px;
+      animation: dotBounce 1.4s infinite ease-in-out both;
+    }
+    @keyframes dotBounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1.0); }
+    }
+  </style>
+</head>
+<body>
+
+<h1 style="font-size: 32px; color: #00FF00;">WiFi Settings</h1>
+<h1 style="font-size: 22px; color: #800080;">Raspberry Pi Prayer Times</h1>
+<p style="font-size: 16px;">Enter your network credentials or scan to connect</p>
+
+<div class="results-container">
+  <form id="wifiForm">
+    <input type="text" id="ssid" placeholder="Wi-Fi SSID" required>
+    <input type="password" id="password" placeholder="Wi-Fi Password" required>
+    <button type="button" onclick="connect()">Connect</button>
+  </form>
+  <div class="spinner-container"></div>
+  <div id="networkResults"></div>
+</div>
+
+<button id="scanButton" onclick="scanNetworks()">Scan Networks</button>
+
+<script>
+  window.onload = function() {
+    console.log('Client browser opened and connected to the hotspot.');
+    // Optionally, perform actions based on connection status
+  };
+
+  function connect() {
+    var ssid = document.getElementById('ssid').value;
+    var password = document.getElementById('password').value;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/connect', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        alert('Connection successful');
+      } else {
+        alert('Connection failed');
+      }
+    };
+    xhr.send(JSON.stringify({ ssid: ssid, password: password }));
+  }
+
+  function scanNetworks() {
+    var spinnerContainer = document.querySelector(".spinner-container");
+    spinnerContainer.innerHTML = '<div class="spinner-dot"></div>'.repeat(3);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/scan', true);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        var networks = JSON.parse(xhr.responseText);
+        displayNetworks(networks);
+      } else {
+        console.error('Failed to fetch networks');
+      }
+      spinnerContainer.innerHTML = ''; // Remove spinner after load or failure
+    };
+    xhr.send();
+  }
+
+  function displayNetworks(networks) {
+    var results = document.getElementById('networkResults');
+    results.innerHTML = '';
+    networks.forEach(function(network) {
+      var div = document.createElement('div');
+      div.className = 'networkElement';
+      div.textContent = network.ssid;
+      div.onclick = function () {
+        document.getElementById('ssid').value = network.ssid;
+        document.getElementById('password').focus();
+      };
+      results.appendChild(div);
+    });
+  }
+</script>
+
+</body>
+</html>

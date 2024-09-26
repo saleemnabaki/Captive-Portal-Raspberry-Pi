@@ -1,0 +1,13 @@
+[
+  {
+    "uid": "appName1",
+    "append": true,
+    "watch": false,
+    "script": "server2.js",
+    "sourceDir": "/home/pi/server/server2/",
+    "workingDir": "/home/pi/server/server2/"
+  }
+
+  
+
+]
